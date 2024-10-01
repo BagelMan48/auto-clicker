@@ -1,6 +1,13 @@
-#currently doesn't work. just laying out foundation before implementing the clicker
+#now it half works. it can start the spam click but now it cant stop!
 
 from pynput import mouse, keyboard
+from pynput.mouse import Button, Controller, Listener
+from pynput.keyboard import Key, KeyCode, Listener
+import time
+
+mouse_controller = Controller()
+keyboard_controller = keyboard.Controller()
+clickButton = Button.left
 
 
 def spamFrequency():
@@ -19,10 +26,19 @@ def spamFrequency():
 
     
     spamFreq = 1/spamFreq
-    print(f"Fun fact: you will be clicking once every {spamFreq:.2f} seconds.")
+    print(f"Fun fact: you will be clicking once every {spamFreq:.3f} seconds.")
     
     return spamFreq
 
+
+def autoClicker(startClick, spamFreq, keyToggleSpam):
+    if startClick == True:
+        print("You are spam clicking")
+        while (startClick == True):
+            mouse_controller.click(clickButton, 1)
+            time.sleep(spamFreq)
+    else:
+        print("You have stopped clicking.")
 
 
 def main():
@@ -30,7 +46,9 @@ def main():
     while (len(keyToggleSpam) != 1):
         keyToggleSpam = input("Please enter a single character: ")
 
+
     spamFreq = spamFrequency()
+
 
     spamClick = False
     startSpam = input("Do you want to start spam clicking? (y/n) ")
@@ -42,6 +60,9 @@ def main():
         print(f"Press {keyToggleSpam} to stop spam clicking.")
     else:
         print(f"Press {keyToggleSpam} to start spam clicking.")
-    
+
+
+    autoClicker(spamClick, spamFreq, keyToggleSpam)
+  
 
 main()
