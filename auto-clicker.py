@@ -1,9 +1,14 @@
-#now it half works. it can start the spam click but now it cant stop!
+#NOW IT DOESNT WORK BUT I SWEAR I CAN FIX IT
+#Reminder to self: create a new bool to make autoClicker continuously run
+#Reminder to self 2: make that bool be in on_press
+#Reminder to self 3: use threading. i can do it
+#Reminder to self 4: i can do it. put school as priority first tho!
 
 from pynput import mouse, keyboard
 from pynput.mouse import Button, Controller, Listener
 from pynput.keyboard import Key, KeyCode, Listener
 import time
+import threading
 
 mouse_controller = Controller()
 keyboard_controller = keyboard.Controller()
@@ -30,15 +35,64 @@ def spamFrequency():
     
     return spamFreq
 
+def on_press(key):
+    global keyToggleSpamKeyCode
+    global spamFreq
+    global spamClick
+
+    while (key != Key.esc):
+        if key == keyToggleSpamKeyCode:
+            spamClick = not spamClick
+            if spamClick:
+                print("You are spam clicking.")
+                mouse_controller.click(clickButton, 1)
+            else:
+                print("You have stopped spam clicking.")
+    print("program stopping")
+    return False
+
+# this method might not be needed but we will find out
+'''def toggleClick(spamClick):
+    showmsg = True
+    while (spamClick):
+        if showmsg:
+            print("You are spam clicking.")
+            showmsg = False
+        mouse_controller.click(clickButton, 1)
+        time.sleep(spamFreq)
+    else:
+        print("You have stopped spam clicking.")'''
+
 
 def autoClicker(startClick, spamFreq, keyToggleSpam):
+
+    spamClick = startClick
+
+    global keyToggleSpamKeyCode
+
+    keyToggleSpamKeyCode = KeyCode(char=keyToggleSpam)
+
+    while (spamClick):
+        print("You are spam clicking.")
+        mouse_controller.click(clickButton, 1)
+        time.sleep(spamFreq)
+    
+    with keyboard.Listener(on_press=on_press,) as listener:
+        listener.join()
+
+
+    '''
     if startClick == True:
         print("You are spam clicking")
         while (startClick == True):
             mouse_controller.click(clickButton, 1)
+            if keyboard.pressed(Key[keyToggleSpam]):
+                startClick = False
+                print("You have stopped clicking.")
             time.sleep(spamFreq)
     else:
         print("You have stopped clicking.")
+    '''
 
 
 def main():
@@ -46,10 +100,11 @@ def main():
     while (len(keyToggleSpam) != 1):
         keyToggleSpam = input("Please enter a single character: ")
 
-
+    global spamFreq
     spamFreq = spamFrequency()
 
 
+    global spamClick
     spamClick = False
     startSpam = input("Do you want to start spam clicking? (y/n) ")
     while (startSpam.lower() != "y" and startSpam.lower() != "n"):
