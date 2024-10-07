@@ -69,6 +69,7 @@ def spamClicking(spamFreq):
             mouse_controller.click(clickButton, 1)
             counter += 1
             time.sleep(spamFreq)
+        time.sleep(0) # need this in order for program_running loop to work if spamClick is initially False
 
 
 def autoClicker(spamFreq, keyToggleSpam):
@@ -76,8 +77,8 @@ def autoClicker(spamFreq, keyToggleSpam):
     keyToggleSpamKeyCode = KeyCode(char=keyToggleSpam)
 
     global x
-    x = threading.Thread(target=spamClicking, args=(spamFreq,), daemon=True)
-    x.start()
+    spamClick_thread = threading.Thread(target=spamClicking, args=(spamFreq,), daemon=True)
+    spamClick_thread.start()
     
     with keyboard.Listener(on_press=on_press) as listener:
         listener.join()
