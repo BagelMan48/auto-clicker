@@ -52,7 +52,7 @@ def on_press(key):
             print("You have stopped spam clicking.") 
 
     elif key == keyboard.Key.esc:
-        print("Program stopping")
+        print("\nProgram stopping")
         program_running = False
         print(f"You clicked {counter} times in total.")
         return False
