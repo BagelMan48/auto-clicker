@@ -1,4 +1,4 @@
-#ALMOST DONE
+#I CAN TOGGLE THE CLICKS NOW
 
 from pynput import mouse, keyboard
 from pynput.mouse import Button, Controller, Listener
@@ -33,6 +33,7 @@ def spamFrequency():
     return spamFreq
 
 def on_press(key):
+    global program_running
     global keyToggleSpamKeyCode
     global spamFreq
     global spamClick
@@ -40,27 +41,35 @@ def on_press(key):
     if key == keyToggleSpamKeyCode:
         global x
         spamClick = not spamClick
+
         if spamClick:
             print("You are spam clicking.")
-            x.start()
+            spamClicking(spamFreq)
+
         elif (not spamClick):
-            print("You have stopped spam clicking.")
+            print("You have stopped spam clicking.") 
 
-
-    
     elif key == Key.esc:
         print("Program stopping")
+        program_running = False
         return False
 
     
 
+
 def spamClicking(spamFreq):
+    global program_running
+    program_running = True
+    
     global spamClick
-    while (spamClick):
-        print("You are spam clicking2.")
-        mouse_controller.click(clickButton, 1)
-        time.sleep(spamFreq)
-    return False
+    while program_running:
+        if (spamClick):
+            print("You are spam clicking2.")
+            while (spamClick):
+                mouse_controller.click(clickButton, 1)
+                time.sleep(spamFreq)
+        else:
+            print("Not spam clicking anymore.")
     
   
 
