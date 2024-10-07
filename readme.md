@@ -9,7 +9,7 @@ First time using threading and pynput and I have to say, they were pretty cool t
 - Customizable click speed (and it shows the interval between each click up to 3 decimal places)
 - Click counter at the end of the program
 
-  ## Requirements
+## Requirements
 - Pynput. To install it, run the following command. Otherwise, it will not work.
 ```
 python -m pip install pynput
