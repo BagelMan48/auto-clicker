@@ -47,7 +47,7 @@ def on_press(key):
 
         if spamClick:
             print("You are spam clicking.")
-
+            
         elif (not spamClick):
             print("You have stopped spam clicking.") 
 
@@ -71,18 +71,12 @@ def spamClicking(spamFreq):
             time.sleep(spamFreq)
 
 
-
 def autoClicker(spamFreq, keyToggleSpam):
-
-
     global keyToggleSpamKeyCode
-
     keyToggleSpamKeyCode = KeyCode(char=keyToggleSpam)
 
     global x
-
     x = threading.Thread(target=spamClicking, args=(spamFreq,), daemon=True)
-    
     x.start()
     
     with keyboard.Listener(on_press=on_press) as listener:
@@ -97,9 +91,9 @@ def main():
     global spamFreq
     spamFreq = spamFrequency()
 
-
     global spamClick
     spamClick = False
+    
     startSpam = input("Do you want to start spam clicking? (y/n) ")
     while (startSpam.lower() != "y" and startSpam.lower() != "n"):
         startSpam = input("Please enter 'y' or 'n': ")
@@ -109,7 +103,6 @@ def main():
         print(f"Press {keyToggleSpam} to stop spam clicking.\nPress esc to exit the program.")
     else:
         print(f"Press {keyToggleSpam} to start spam clicking.\nPress esc to exit the program.")
-
 
     autoClicker(spamFreq, keyToggleSpam)
   
