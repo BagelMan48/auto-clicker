@@ -84,7 +84,7 @@ def autoClicker(spamFreq, keyToggleSpam):
 
 
 def main():
-    keyToggleSpam = input("What key do you want to toggle spam clicking? ")
+    keyToggleSpam = input("What key do you want to toggle spam clicking? ").lower()
     while (len(keyToggleSpam) != 1):
         keyToggleSpam = input("Please enter a single character: ")
 
